@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thank You, Dr. Kowalski-Braun</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        /* 🌸 Floral pastel background */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            position: relative;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #ffe0f0 0%, #ffd2f4 40%, transparent 70%),
+                radial-gradient(circle at bottom right, #c3fff3 0%, #d5fffa 40%, transparent 70%),
+                linear-gradient(135deg, #ffe0f0, #ffccf9, #d5e8ff, #c3fff3, #f7ffd4);
+            background-size: 200% 200%;
+            animation: bgShift 15s ease-in-out infinite;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 10px 120px; /* extra bottom space for flowers */
+            color: #333;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .scene {
+            perspective: 1200px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* ☀️ Sun on left, higher */
+        .sun {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fffde7, #ffd54f, #ffb300);
+            box-shadow: 0 0 35px rgba(255, 224, 130, 0.9);
+            position: absolute;
+            top: 20px;   /* higher up */
+            left: 60px;  /* left side */
+            animation: sunPulse 4s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes sunPulse {
+            0% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.05) translateY(-6px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+
+        /* ☁️ Clouds behind sun */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            box-shadow:
+                -25px 8px 0 rgba(255, 255, 255, 0.9),
+                25px 10px 0 rgba(255, 255, 255, 0.9);
+            z-index: 1;
+            filter: blur(0.3px);
+            animation: cloudDrift 18s linear infinite;
+        }
+
+        .cloud1 {
+            width: 140px;
+            height: 55px;
+            top: 70px;
+            left: 140px;
+            opacity: 0.9;
+        }
+
+        .cloud2 {
+            width: 120px;
+            height: 50px;
+            top: 120px;
+            left: 260px;
+            opacity: 0.85;
+            animation-duration: 22s;
+        }
+
+        @keyframes cloudDrift {
+            0%   { transform: translateX(0); }
+            50%  { transform: translateX(35px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* 3D card wrapper */
+        .card-wrapper {
+            transform-style: preserve-3d;
+            transform: rotateX(8deg) rotateY(-6deg);
+            transition: transform 0.7s ease;
+        }
+        .card-wrapper:hover {
+            transform: rotateX(0deg) rotateY(0deg) translateY(-6px);
+        }
+
+        /* 🌸 Glass card */
+        .card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.88);
+            border-radius: 24px;
+            padding: 40px 38px;
+            backdrop-filter: blur(12px);
+            box-shadow:
+                0 18px 35px rgba(0,0,0,0.18),
+                0 0 0 2px rgba(255,255,255,0.7);
+            transform: translateZ(45px);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: -3px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, #ffa2d8, #ffc35b, #7dd3fc, #e2b9ff);
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        .photo {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto 20px;
+            box-shadow:
+                0 12px 25px rgba(0,0,0,0.18),
+                0 0 0 4px rgba(255,255,255,0.95);
+        }
+
+        h1 {
+            color: #1d4ea8;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.7;
+            margin: 12px 0;
+        }
+
+        /* ✍️ Signature */
+        .signature {
+            margin-top: 30px;
+            font-family: "Dancing Script", cursive;
+            font-size: 30px;
+            text-align: right;
+            color: #1d4ea8;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 0;
+            animation: signatureReveal 3s ease-out forwards;
+        }
+
+        @keyframes signatureReveal {
+            0% { max-width: 0; opacity: 0; }
+            100% { max-width: 300px; opacity: 1; }
+        }
+
+        /* Floating petals */
+        .petal {
+            position: fixed;
+            top: -10px;
+            width: 16px;
+            height: 20px;
+            background: radial-gradient(circle, #ffe6f2, #ff8fb8, #ff4f8b);
+            border-radius: 70% 30% 70% 30%;
+            opacity: 0.85;
+            pointer-events: none;
+            animation: fall 9s linear forwards, sway 3s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: fixed;
+            top: -10px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fffbcf, #ffe76a, #fbc02d);
+            animation: sparkleFloat 5s linear forwards, sparkleTwinkle 1.3s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        /* Hearts / butterflies */
+        .heart {
+            position: fixed;
+            top: -10px;
+            font-size: 22px;
+            color: #ff6fae;
+            text-shadow: 0 0 10px rgba(255,107,157,0.8);
+            animation: heartFloat 8s linear forwards, heartSway 3s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        @keyframes fall   { 100% { transform: translateY(110vh) rotate(220deg); opacity: 0; } }
+        @keyframes sway   { 50%  { transform: translateX(30px) rotate(12deg); } }
+        @keyframes sparkleFloat   { 100% { transform: translateY(100vh); opacity: 0; } }
+        @keyframes sparkleTwinkle { 50%  { transform: scale(1.7); opacity: 0.4; } }
+        @keyframes heartFloat     { 100% { transform: translateY(105vh); opacity: 0; } }
+        @keyframes heartSway      { 50%  { transform: translateX(40px) rotate(12deg); } }
+
+        /* 🌼 Flowers at bottom */
+        .flowers {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .flower {
+            position: relative;
+            width: 40px;
+            height: 120px;
+            transform-origin: bottom center;
+            transform: scale(0.1) translateY(40px);
+            opacity: 0;
+            animation: bloom 2.8s ease-out forwards, flowerSway 4s ease-in-out infinite 2.8s;
+            animation-delay: var(--delay);
+        }
+
+        .stem {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            height: 80px;
+            transform: translateX(-50%);
+            background: linear-gradient(#2e7d32, #66bb6a);
+            border-radius: 2px;
+        }
+
+        .leaf {
+            position: absolute;
+            bottom: 35px;
+            width: 14px;
+            height: 8px;
+            background: #66bb6a;
+            border-radius: 12px 0 12px 0;
+        }
+        .leaf.left  { left: 5px;  transform: rotate(-25deg); }
+        .leaf.right { right: 5px; transform: rotate(25deg); }
+
+        .bud {
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff, #ff8fb8, #ff4f8b);
+            box-shadow: 0 0 10px rgba(255, 143, 184, 0.9);
+        }
+
+        .bud::before,
+        .bud::after {
+            content: "";
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff, #ffd1ff);
+            opacity: 0.9;
+        }
+
+        .bud::before {
+            transform: translate(-14px, 0);
+        }
+
+        .bud::after {
+            transform: translate(14px, 0);
+        }
+
+        @keyframes bloom {
+            0%   { transform: scale(0.1) translateY(40px); opacity: 0; }
+            100% { transform: scale(1) translateY(0);     opacity: 1; }
+        }
+
+        @keyframes flowerSway {
+            0%,100% { transform: translateY(0) rotate(0deg); }
+            50%     { transform: translateY(-4px) rotate(3deg); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sun and clouds -->
+    <div class="sun"></div>
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+
+    <div class="scene">
+        <div class="card-wrapper">
+            <div class="card">
+
+                <img src="marlene.jpg" class="photo" alt="Dr. Marlene Kowalski-Braun">
+
+                <h1>Thank You, Dr. Marlene Kowalski-Braun</h1>
+
+                <div class="subtitle">
+                    With gratitude for your leadership, kindness, and light.
+                </div>
+
+                <p>
+                    I want to express my deepest gratitude for your leadership,
+                    mentorship, and unwavering dedication to creating an inclusive
+                    and supportive environment at Grand Valley State University.
+                </p>
+
+                <p>
+                    Your compassion, vision, and guidance have had a lasting impact
+                    on my professional journey. I am sincerely grateful for the trust
+                    and encouragement you show.
+                </p>
+
+                <p>
+                    I also want to share something personal: when you took that picture
+                    of me in Kirkhof, it reminded me of my mother. The warmth, kindness,
+                    and care in that moment meant more to me than I can express.
+                </p>
+
+                <div class="signature">— Jhansi</div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 🌼 Flowers along the bottom -->
+    <div class="flowers">
+        <div class="flower" style="--delay: 0s;">
+            <div class="stem"></div>
+            <div class="leaf left"></div>
+            <div class="leaf right"></div>
+            <div class="bud"></div>
+        </div>
+        <div class="flower" style="--delay: 0.4s;">
+            <div class="stem"></div>
+            <div class="leaf left"></div>
+            <div class="leaf right"></div>
+            <div class="bud"></div>
+        </div>
+        <div class="flower" style="--delay: 0.8s;">
+            <div class="stem"></div>
+            <div class="leaf left"></div>
+            <div class="leaf right"></div>
+            <div class="bud"></div>
+        </div>
+        <div class="flower" style="--delay: 1.2s;">
+            <div class="stem"></div>
+            <div class="leaf left"></div>
+            <div class="leaf right"></div>
+            <div class="bud"></div>
+        </div>
+        <div class="flower" style="--delay: 1.6s;">
+            <div class="stem"></div>
+            <div class="leaf left"></div>
+            <div class="leaf right"></div>
+            <div class="bud"></div>
+        </div>
+    </div>
+
+    <!-- Floating animation scripts -->
+    <script>
+        function createPetal() {
+            const p = document.createElement("span");
+            p.className = "petal";
+            p.style.left = Math.random() * 100 + "vw";
+            p.style.animationDuration = (8 + Math.random() * 5) + "s";
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 14000);
+        }
+
+        function createSparkle() {
+            const s = document.createElement("span");
+            s.className = "sparkle";
+            s.style.left = Math.random() * 100 + "vw";
+            s.style.animationDuration = (4 + Math.random() * 3) + "s";
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 10000);
+        }
+
+        function createHeart() {
+            const h = document.createElement("span");
+            h.className = "heart";
+            h.textContent = Math.random() > 0.5 ? "♥" : "🦋";
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.animationDuration = (7 + Math.random() * 4) + "s";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 12000);
+        }
+
+        setInterval(createPetal, 900);
+        setInterval(createSparkle, 1000);
+        setInterval(createHeart, 1500);
+    </script>
+
+</body>
+</html>
+
+
+
